@@ -19,24 +19,25 @@ namespace LINQ
             char symbolTxt = ' ';
             string path = "D:\\Project1";
 
-            if (!Directory.Exists(path))
+            if (Directory.Exists(path))
             {
-                DirectoryInfo directory = Directory.CreateDirectory(path);
+                Directory.Delete(path, true);
             }
+            DirectoryInfo directory = Directory.CreateDirectory(path);
 
-            var filename1 = OperationsWithFiles.WriteData(symbolTxt, new List<int[]> { array1, array2, array3 });
-            var filename2 = OperationsWithFiles.WriteData(symbolTxt, new List<int[]> { array2, array4, array1 });
+            var filename1 = OperationsWithFiles.WriteData(directory,symbolTxt, new List<int[]> { array1, array2, array3 });
+            var filename2 = OperationsWithFiles.WriteData(directory, symbolTxt, new List<int[]> { array2, array4, array1 });
 
-            OperationsWithFiles.ReadData(filename1, symbolTxt, ref oddList, ref evenList, ref equalList);
-            OperationsWithFiles.ReadData(filename2, symbolTxt, ref oddList, ref evenList, ref equalList);
+            OperationsWithFiles.ReadData(directory, filename1, symbolTxt, ref oddList, ref evenList, ref equalList);
+            OperationsWithFiles.ReadData(directory, filename2, symbolTxt, ref oddList, ref evenList, ref equalList);
 
-            using (StreamWriter streamWriterTxt = new StreamWriter($"{path}\\output1.txt"))
+            using (StreamWriter streamWriterTxt = new StreamWriter($"{directory}\\output1.txt"))
                 streamWriterTxt.AddMultiply(oddList, symbolTxt);
 
-            using (StreamWriter streamWriterTxt = new StreamWriter($"{path}\\output2.txt"))
+            using (StreamWriter streamWriterTxt = new StreamWriter($"{directory}\\output2.txt"))
                 streamWriterTxt.AddSum(evenList, symbolTxt);
 
-            using (StreamWriter streamWriterTxt = new StreamWriter($"{path}\\output3.txt"))
+            using (StreamWriter streamWriterTxt = new StreamWriter($"{directory}\\output3.txt"))
                 streamWriterTxt.AddSortedArray(equalList, symbolTxt);
         }
     }
